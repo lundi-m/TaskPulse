@@ -2,9 +2,11 @@ package com.lundi_m.taskpulse.repository;
 
 import com.lundi_m.taskpulse.model.TaskPulseUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface UserRepository extends JpaRepository<TaskPulseUser, Long> {
 
     Optional<Long> findByEmail(String email);
