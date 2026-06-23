@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<TaskPulseUser, Long> {
 
-    Optional<Long> findByEmail(String email);
+    Optional<TaskPulseUser> findByEmail(String email);
     boolean existsByEmail(String email);
 }
