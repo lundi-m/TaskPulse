@@ -1,5 +1,7 @@
 package com.lundi_m.taskpulse.controller;
 
+import com.lundi_m.taskpulse.dto.AuthResponse;
+import com.lundi_m.taskpulse.dto.LoginRequest;
 import com.lundi_m.taskpulse.dto.RegisterRequest;
 import com.lundi_m.taskpulse.dto.UserResponse;
 import com.lundi_m.taskpulse.service.AuthService;
@@ -23,5 +25,10 @@ public class AuthController {
         UserResponse response = authService.register(request);
 
         return ResponseEntity.status(201).body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request){
+        return ResponseEntity.ok(authService.login(request));
     }
 }
