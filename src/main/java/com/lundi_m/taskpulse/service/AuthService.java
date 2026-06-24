@@ -1,9 +1,7 @@
 package com.lundi_m.taskpulse.service;
 
-import com.lundi_m.taskpulse.dto.AuthResponse;
-import com.lundi_m.taskpulse.dto.LoginRequest;
-import com.lundi_m.taskpulse.dto.RegisterRequest;
-import com.lundi_m.taskpulse.dto.UserResponse;
+import com.lundi_m.taskpulse.dto.*;
+import com.lundi_m.taskpulse.model.RefreshToken;
 import com.lundi_m.taskpulse.model.TaskPulseUser;
 import com.lundi_m.taskpulse.repository.UserRepository;
 import com.lundi_m.taskpulse.security.JwtService;
@@ -24,6 +22,8 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
+
 
     public UserResponse register(RegisterRequest request){
         if (userRepository.existsByEmail(request.getEmail())){
@@ -58,9 +58,25 @@ public class AuthService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         String accessToken = jwtService.generateAccessToken(user.getEmail());
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
 
         return AuthResponse.builder()
-                .token(accessToken)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken.getToken())
                 .build();
+    }
+
+    public AuthResponse refresh(RefreshRequest request){
+        RefreshToken refreshToken = refreshTokenService.verifyAndGet(request.getRefreshToken());
+        String newAccessToken = jwtService.generateAccessToken(refreshToken.getUser().getEmail());
+
+        return AuthResponse.builder()
+                .refreshToken(refreshToken.getToken())
+                .accessToken(newAccessToken)
+                .build();
+    }
+
+    public void logout(RefreshRequest request){
+        refreshTokenService.deleteByToken(request.getRefreshToken());
     }
 }

@@ -1,9 +1,6 @@
 package com.lundi_m.taskpulse.controller;
 
-import com.lundi_m.taskpulse.dto.AuthResponse;
-import com.lundi_m.taskpulse.dto.LoginRequest;
-import com.lundi_m.taskpulse.dto.RegisterRequest;
-import com.lundi_m.taskpulse.dto.UserResponse;
+import com.lundi_m.taskpulse.dto.*;
 import com.lundi_m.taskpulse.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +27,16 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request){
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshRequest request){
+        return ResponseEntity.ok(authService.refresh(request));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestBody RefreshRequest request){
+        authService.logout(request);
+        return ResponseEntity.ok("Logged out successfully");
     }
 }
