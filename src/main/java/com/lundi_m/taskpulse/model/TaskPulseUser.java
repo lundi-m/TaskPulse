@@ -3,7 +3,7 @@ package com.lundi_m.taskpulse.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
