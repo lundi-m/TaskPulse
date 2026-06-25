@@ -31,10 +31,13 @@ public class Task {
     private String description;
 
     @Column(nullable = false)
-    private Integer priority; //
+    private Integer priority; // 1-5
 
     @Column(nullable = false)
-    private Integer estimatedDuration;
+    private Integer estimatedDuration; // minutes
+
+    @Column(nullable = false)
+    private Integer difficultyLevel; // 1-5
 
     private LocalDate deadline;
 
@@ -48,11 +51,11 @@ public class Task {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return completed == task.completed && Objects.equals(id, task.id) && Objects.equals(user, task.user) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(priority, task.priority) && Objects.equals(estimatedDuration, task.estimatedDuration) && Objects.equals(deadline, task.deadline) && Objects.equals(createdAt, task.createdAt);
+        return completed == task.completed && Objects.equals(id, task.id) && Objects.equals(user, task.user) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(priority, task.priority) && Objects.equals(estimatedDuration, task.estimatedDuration) && Objects.equals(difficultyLevel, task.difficultyLevel) && Objects.equals(deadline, task.deadline) && Objects.equals(createdAt, task.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, title, description, priority, estimatedDuration, deadline, completed, createdAt);
+        return Objects.hash(id, user, title, description, priority, estimatedDuration, difficultyLevel, deadline, completed, createdAt);
     }
 }
