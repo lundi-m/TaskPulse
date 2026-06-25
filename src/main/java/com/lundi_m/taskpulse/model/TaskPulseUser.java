@@ -32,7 +32,7 @@ public class TaskPulseUser {
     private String password;
 
     @Column(nullable = false)
-    private LocalDate createdAt;
+    private Instant createdAt = Instant.now();
 
     @Override
     public boolean equals(Object o) {
