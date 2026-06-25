@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Service
@@ -35,6 +36,7 @@ public class AuthService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .createdAt(Instant.now())
                 .build();
 
         TaskPulseUser saved = userRepository.save(user);
@@ -44,6 +46,7 @@ public class AuthService {
                 .firstName(saved.getFirstName())
                 .lastName(saved.getLastName())
                 .email(saved.getEmail())
+                .createdAt(saved.getCreatedAt())
                 .build();
     }
 
