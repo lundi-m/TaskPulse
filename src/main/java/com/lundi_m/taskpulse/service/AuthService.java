@@ -35,7 +35,6 @@ public class AuthService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .createdAt(LocalDate.now())
                 .build();
 
         TaskPulseUser saved = userRepository.save(user);
@@ -45,7 +44,6 @@ public class AuthService {
                 .firstName(saved.getFirstName())
                 .lastName(saved.getLastName())
                 .email(saved.getEmail())
-                .createdAt(saved.getCreatedAt())
                 .build();
     }
 
