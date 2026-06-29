@@ -21,7 +21,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             """)
     Page<Task> findFiltered(
             @Param("userId") Long userId,
-            @Param("completed") Boolean completed,
+            @Param("completed") String completed,
             @Param("priority") Integer priority,
             Pageable pageable
     );
