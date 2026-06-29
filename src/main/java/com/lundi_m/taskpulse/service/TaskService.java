@@ -7,6 +7,8 @@ import com.lundi_m.taskpulse.model.TaskPulseUser;
 import com.lundi_m.taskpulse.repository.TaskRepository;
 import com.lundi_m.taskpulse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -37,16 +39,75 @@ public class TaskService {
 
         Task saved = taskRepository.save(task);
 
+        return mapToDTO(saved);
+    }
+
+    public Page<TaskResponse> getTasks(String email,
+                               String completed,
+                               Integer priority,
+                               Pageable pageable){
+
+        TaskPulseUser user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        Page<Task> tasks = taskRepository.findFiltered(user.getId(), completed ,priority, pageable);
+
+        return tasks.map(this::mapToDTO);
+    }
+
+    public Task getTaskById(String email, Long taskId){
+        TaskPulseUser user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+                return taskRepository.findByIdAndUserId(taskId ,user.getId())
+                        .orElseThrow(() -> new RuntimeException("Task not found"));
+    }
+
+    public TaskResponse updateTask(String email, Long taskId, TaskRequest request){
+        Task task = getTaskById(email, taskId);
+
+        task = Task.builder()
+                .user(task.getUser())
+                .title(request.getTitle())
+                .description(request.getDescription())
+                .priority(request.getPriority())
+                .estimatedDuration(request.getEstimatedDuration())
+                .difficultyLevel(request.getDifficultyLevel())
+                .deadline(request.getDeadline())
+                .completed("Not completed")
+                .createdAt(Instant.now())
+                .build();
+
+        Task saved = taskRepository.save(task);
+
+        return mapToDTO(saved);
+    }
+
+    public void deleteTask(String email, Long taskId){
+        Task task = getTaskById(email, taskId);
+        taskRepository.delete(task);
+    }
+
+    public Task markComplete(String email, Long taskId){
+        Task task = getTaskById(email, taskId);
+        task.setCompleted("Completed");
+
+        return taskRepository.save(task);
+    }
+
+    // Mapper
+    private TaskResponse mapToDTO(Task task){
         return TaskResponse.builder()
-                .id(saved.getId())
-                .title(saved.getTitle())
-                .description(saved.getDescription())
-                .priority(saved.getPriority())
-                .estimatedDuration(saved.getEstimatedDuration())
-                .difficultyLevel(saved.getDifficultyLevel())
-                .deadline(saved.getDeadline())
-                .completed(saved.getCompleted())
-                .createdAt(saved.getCreatedAt())
+                .id(task.getId())
+                .title(task.getTitle())
+                .description(task.getDescription())
+                .priority(task.getPriority())
+                .estimatedDuration(task.getEstimatedDuration())
+                .difficultyLevel(task.getDifficultyLevel())
+                .deadline(task.getDeadline())
+                .completed(task.getCompleted())
+                .createdAt(task.getCreatedAt())
                 .build();
     }
+
 }
