@@ -31,7 +31,7 @@ public class TaskService {
                 .estimatedDuration(request.getEstimatedDuration())
                 .difficultyLevel(request.getDifficultyLevel())
                 .deadline(request.getDeadline())
-                .completed(false)
+                .completed("Not completed")
                 .createdAt(Instant.now())
                 .build();
 
@@ -45,7 +45,7 @@ public class TaskService {
                 .estimatedDuration(saved.getEstimatedDuration())
                 .difficultyLevel(saved.getDifficultyLevel())
                 .deadline(saved.getDeadline())
-                .isCompleted(saved.isCompleted())
+                .completed(saved.getCompleted())
                 .createdAt(saved.getCreatedAt())
                 .build();
     }

@@ -28,6 +28,6 @@ public class TaskResponse {
     private Integer estimatedDuration;
     private Integer difficultyLevel;
     private LocalDate deadline;
-    private boolean isCompleted;
+    private String completed;
     private Instant createdAt;
 }

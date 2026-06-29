@@ -42,7 +42,7 @@ public class Task {
     private LocalDate deadline;
 
     @Column(nullable = false)
-    private boolean completed;
+    private String completed;
 
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
@@ -51,7 +51,7 @@ public class Task {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return completed == task.completed && Objects.equals(id, task.id) && Objects.equals(user, task.user) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(priority, task.priority) && Objects.equals(estimatedDuration, task.estimatedDuration) && Objects.equals(difficultyLevel, task.difficultyLevel) && Objects.equals(deadline, task.deadline) && Objects.equals(createdAt, task.createdAt);
+        return Objects.equals(id, task.id) && Objects.equals(user, task.user) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(priority, task.priority) && Objects.equals(estimatedDuration, task.estimatedDuration) && Objects.equals(difficultyLevel, task.difficultyLevel) && Objects.equals(deadline, task.deadline) && Objects.equals(completed, task.completed) && Objects.equals(createdAt, task.createdAt);
     }
 
     @Override
