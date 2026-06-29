@@ -5,13 +5,12 @@ import com.lundi_m.taskpulse.dto.TaskResponse;
 import com.lundi_m.taskpulse.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,4 +29,17 @@ public class TaskController {
 
         return ResponseEntity.status(201).body(response);
     }
+
+    @GetMapping
+    public ResponseEntity<Page<TaskResponse>> getTasks(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(required = false) String completed,
+            @RequestParam(required = false) Integer priority,
+            Pageable pageable
+    ) {
+        Page<TaskResponse> tasks = taskService.getTasks(userDetails.getUsername(), completed, priority, pageable);
+
+        return ResponseEntity.ok(tasks);
+    }
 }
+
