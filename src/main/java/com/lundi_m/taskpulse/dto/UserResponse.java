@@ -3,6 +3,7 @@ package com.lundi_m.taskpulse.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Data
@@ -13,5 +14,5 @@ public class UserResponse {
     private String firstName;
     private String lastName;
     private String email;
-    private LocalDate createdAt;
+    private Instant createdAt;
 }
