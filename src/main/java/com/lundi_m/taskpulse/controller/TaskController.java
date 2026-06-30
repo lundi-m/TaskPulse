@@ -2,6 +2,7 @@ package com.lundi_m.taskpulse.controller;
 
 import com.lundi_m.taskpulse.dto.TaskRequest;
 import com.lundi_m.taskpulse.dto.TaskResponse;
+import com.lundi_m.taskpulse.model.Task;
 import com.lundi_m.taskpulse.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,5 +42,48 @@ public class TaskController {
 
         return ResponseEntity.ok(tasks);
     }
-}
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskResponse> getTaskById(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable Long id){
+
+        TaskResponse task = taskService.getTaskResponseById(userDetails.getUsername(), id);
+
+        return ResponseEntity.ok(task);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskResponse> updateTask(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable Long id,
+            @RequestBody TaskRequest request
+    ){
+
+        TaskResponse task = taskService.updateTask(userDetails.getUsername(), id, request);
+
+        return ResponseEntity.ok(task);
+    }
+
+    @PatchMapping("/{id}/complete")
+    public ResponseEntity<TaskResponse> completeTask(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable Long id
+    ){
+
+        TaskResponse task = taskService.markComplete(userDetails.getUsername(), id);
+
+        return ResponseEntity.ok(task);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTask(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable Long id
+    ){
+
+        taskService.deleteTask(userDetails.getUsername(), id);
+
+        return ResponseEntity.noContent().build();
+    }
+}
