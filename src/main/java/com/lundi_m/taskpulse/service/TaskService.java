@@ -2,6 +2,7 @@ package com.lundi_m.taskpulse.service;
 
 import com.lundi_m.taskpulse.dto.TaskRequest;
 import com.lundi_m.taskpulse.dto.TaskResponse;
+import com.lundi_m.taskpulse.exception.TaskNotFoundException;
 import com.lundi_m.taskpulse.model.Task;
 import com.lundi_m.taskpulse.model.TaskPulseUser;
 import com.lundi_m.taskpulse.repository.TaskRepository;
@@ -60,23 +61,26 @@ public class TaskService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
                 return taskRepository.findByIdAndUserId(taskId ,user.getId())
-                        .orElseThrow(() -> new RuntimeException("Task not found"));
+                        .orElseThrow(() -> new TaskNotFoundException(taskId));
+    }
+
+    public TaskResponse getTaskResponseById(String email, Long taskId){
+        Task task = getTaskById(email, taskId);
+
+        return mapToDTO(task);
     }
 
     public TaskResponse updateTask(String email, Long taskId, TaskRequest request){
         Task task = getTaskById(email, taskId);
 
-        task = Task.builder()
-                .user(task.getUser())
-                .title(request.getTitle())
-                .description(request.getDescription())
-                .priority(request.getPriority())
-                .estimatedDuration(request.getEstimatedDuration())
-                .difficultyLevel(request.getDifficultyLevel())
-                .deadline(request.getDeadline())
-                .completed("Not completed")
-                .createdAt(Instant.now())
-                .build();
+        task.setTitle(request.getTitle());
+        task.setDescription(request.getDescription());
+        task.setPriority(request.getPriority());
+        task.setEstimatedDuration(request.getEstimatedDuration());
+        task.setDifficultyLevel(request.getDifficultyLevel());
+        task.setDeadline(request.getDeadline());
+        task.setCompleted("Not Completed");
+        task.setCreatedAt(Instant.now());
 
         Task saved = taskRepository.save(task);
 
@@ -88,11 +92,12 @@ public class TaskService {
         taskRepository.delete(task);
     }
 
-    public Task markComplete(String email, Long taskId){
+    public TaskResponse markComplete(String email, Long taskId){
         Task task = getTaskById(email, taskId);
         task.setCompleted("Completed");
 
-        return taskRepository.save(task);
+        Task saved =  taskRepository.save(task);
+        return mapToDTO(saved);
     }
 
     // Mapper
