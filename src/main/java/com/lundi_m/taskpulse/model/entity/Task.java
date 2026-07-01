@@ -51,15 +51,17 @@ public class Task {
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
+    private Instant completeAt;
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(id, task.id) && Objects.equals(user, task.user) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && priority == task.priority && Objects.equals(estimatedDuration, task.estimatedDuration) && difficultyLevel == task.difficultyLevel && Objects.equals(deadline, task.deadline) && Objects.equals(completed, task.completed) && Objects.equals(createdAt, task.createdAt);
+        return Objects.equals(id, task.id) && Objects.equals(user, task.user) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && priority == task.priority && Objects.equals(estimatedDuration, task.estimatedDuration) && difficultyLevel == task.difficultyLevel && Objects.equals(deadline, task.deadline) && Objects.equals(completed, task.completed) && Objects.equals(createdAt, task.createdAt) && Objects.equals(completeAt, task.completeAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, title, description, priority, estimatedDuration, difficultyLevel, deadline, completed, createdAt);
+        return Objects.hash(id, user, title, description, priority, estimatedDuration, difficultyLevel, deadline, completed, createdAt, completeAt);
     }
 }
