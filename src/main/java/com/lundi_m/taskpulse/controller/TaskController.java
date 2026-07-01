@@ -57,7 +57,7 @@ public class TaskController {
     public ResponseEntity<TaskResponse> updateTask(
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable Long id,
-            @RequestBody TaskRequest request
+            @Valid @RequestBody TaskRequest request
     ){
 
         TaskResponse task = taskService.updateTask(userDetails.getUsername(), id, request);
