@@ -96,6 +96,7 @@ public class TaskService {
     public TaskResponse markComplete(String email, Long taskId){
         Task task = getTaskById(email, taskId);
         task.setCompleted("Completed");
+        task.setCompleteAt(Instant.now());
 
         Task saved =  taskRepository.save(task);
         return mapToDTO(saved);
@@ -113,6 +114,7 @@ public class TaskService {
                 .deadline(task.getDeadline())
                 .completed(task.getCompleted())
                 .createdAt(task.getCreatedAt())
+                .completedAt(task.getCompleteAt())
                 .build();
     }
 
