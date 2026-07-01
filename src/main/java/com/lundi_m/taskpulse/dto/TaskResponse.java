@@ -1,6 +1,8 @@
 package com.lundi_m.taskpulse.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.lundi_m.taskpulse.model.enums.DifficultyLevel;
+import com.lundi_m.taskpulse.model.enums.Priority;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,9 +26,9 @@ public class TaskResponse {
     private Long id;
     private String title;
     private String description;
-    private Integer priority;
+    private Priority priority;
     private Integer estimatedDuration;
-    private Integer difficultyLevel;
+    private DifficultyLevel difficultyLevel;
     private LocalDate deadline;
     private String completed;
     private Instant createdAt;

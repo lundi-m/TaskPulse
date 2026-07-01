@@ -1,5 +1,7 @@
 package com.lundi_m.taskpulse.dto;
 
+import com.lundi_m.taskpulse.model.enums.DifficultyLevel;
+import com.lundi_m.taskpulse.model.enums.Priority;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -16,16 +18,13 @@ public class TaskRequest {
     private String description;
 
     @NotNull(message = "Priority is required")
-    @Min(value = 1, message = "Priority must be between 1 and 5")
-    @Max(value = 5, message = "Priority must be between 1 and 5")
-    private Integer priority;
+    private Priority priority;
 
     @Max(value = 1440, message = "Estimated minutes cannot exceed 1440")
     private Integer estimatedDuration;
 
-    @Min(value = 1, message = "Difficulty level must be between 1 and 5")
-    @Max(value = 5, message = "Difficulty level must be between 1 and 5")
-    private Integer difficultyLevel;
+    @NotNull(message = "Difficulty level is required")
+    private DifficultyLevel difficultyLevel;
 
     @FutureOrPresent(message = "Deadline cannot be in the past")
     private LocalDate deadline;
