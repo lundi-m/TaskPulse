@@ -20,7 +20,8 @@ import java.time.LocalDate;
         "difficultyLevel",
         "deadline",
         "isCompleted",
-        "createdAt"
+        "createdAt",
+        "completedAt"
 })
 public class TaskResponse {
     private Long id;
@@ -32,4 +33,5 @@ public class TaskResponse {
     private LocalDate deadline;
     private String completed;
     private Instant createdAt;
+    private Instant completedAt;
 }
