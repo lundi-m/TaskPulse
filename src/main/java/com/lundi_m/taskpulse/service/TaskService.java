@@ -3,8 +3,9 @@ package com.lundi_m.taskpulse.service;
 import com.lundi_m.taskpulse.dto.TaskRequest;
 import com.lundi_m.taskpulse.dto.TaskResponse;
 import com.lundi_m.taskpulse.exception.TaskNotFoundException;
-import com.lundi_m.taskpulse.model.Task;
-import com.lundi_m.taskpulse.model.TaskPulseUser;
+import com.lundi_m.taskpulse.model.entity.Task;
+import com.lundi_m.taskpulse.model.entity.TaskPulseUser;
+import com.lundi_m.taskpulse.model.enums.Priority;
 import com.lundi_m.taskpulse.repository.TaskRepository;
 import com.lundi_m.taskpulse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class TaskService {
 
     public Page<TaskResponse> getTasks(String email,
                                String completed,
-                               Integer priority,
+                               Priority priority,
                                Pageable pageable){
 
         TaskPulseUser user = userRepository.findByEmail(email)

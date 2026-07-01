@@ -1,5 +1,7 @@
-package com.lundi_m.taskpulse.model;
+package com.lundi_m.taskpulse.model.entity;
 
+import com.lundi_m.taskpulse.model.enums.DifficultyLevel;
+import com.lundi_m.taskpulse.model.enums.Priority;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,14 +32,16 @@ public class Task {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Integer priority; // 1-5
+    private Priority priority;
 
     @Column(nullable = false)
     private Integer estimatedDuration; // minutes
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Integer difficultyLevel; // 1-5
+    private DifficultyLevel difficultyLevel;
 
     private LocalDate deadline;
 
@@ -51,7 +55,7 @@ public class Task {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(id, task.id) && Objects.equals(user, task.user) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(priority, task.priority) && Objects.equals(estimatedDuration, task.estimatedDuration) && Objects.equals(difficultyLevel, task.difficultyLevel) && Objects.equals(deadline, task.deadline) && Objects.equals(completed, task.completed) && Objects.equals(createdAt, task.createdAt);
+        return Objects.equals(id, task.id) && Objects.equals(user, task.user) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && priority == task.priority && Objects.equals(estimatedDuration, task.estimatedDuration) && difficultyLevel == task.difficultyLevel && Objects.equals(deadline, task.deadline) && Objects.equals(completed, task.completed) && Objects.equals(createdAt, task.createdAt);
     }
 
     @Override
