@@ -1,4 +1,4 @@
-package com.lundi_m.taskpulse.model;
+package com.lundi_m.taskpulse.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,7 +1,7 @@
 package com.lundi_m.taskpulse.service;
 
-import com.lundi_m.taskpulse.model.RefreshToken;
-import com.lundi_m.taskpulse.model.TaskPulseUser;
+import com.lundi_m.taskpulse.model.entity.RefreshToken;
+import com.lundi_m.taskpulse.model.entity.TaskPulseUser;
 import com.lundi_m.taskpulse.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

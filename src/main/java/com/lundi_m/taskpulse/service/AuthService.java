@@ -1,8 +1,8 @@
 package com.lundi_m.taskpulse.service;
 
 import com.lundi_m.taskpulse.dto.*;
-import com.lundi_m.taskpulse.model.RefreshToken;
-import com.lundi_m.taskpulse.model.TaskPulseUser;
+import com.lundi_m.taskpulse.model.entity.RefreshToken;
+import com.lundi_m.taskpulse.model.entity.TaskPulseUser;
 import com.lundi_m.taskpulse.repository.UserRepository;
 import com.lundi_m.taskpulse.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor

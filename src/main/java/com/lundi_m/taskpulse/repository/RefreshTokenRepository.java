@@ -1,6 +1,6 @@
 package com.lundi_m.taskpulse.repository;
 
-import com.lundi_m.taskpulse.model.RefreshToken;
+import com.lundi_m.taskpulse.model.entity.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
