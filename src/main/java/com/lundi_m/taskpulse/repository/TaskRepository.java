@@ -1,6 +1,7 @@
 package com.lundi_m.taskpulse.repository;
 
-import com.lundi_m.taskpulse.model.Task;
+import com.lundi_m.taskpulse.model.entity.Task;
+import com.lundi_m.taskpulse.model.enums.Priority;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,7 +23,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Page<Task> findFiltered(
             @Param("userId") Long userId,
             @Param("completed") String completed,
-            @Param("priority") Integer priority,
+            @Param("priority") Priority priority,
             Pageable pageable
     );
 }

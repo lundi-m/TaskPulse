@@ -2,7 +2,7 @@ package com.lundi_m.taskpulse.controller;
 
 import com.lundi_m.taskpulse.dto.TaskRequest;
 import com.lundi_m.taskpulse.dto.TaskResponse;
-import com.lundi_m.taskpulse.model.Task;
+import com.lundi_m.taskpulse.model.enums.Priority;
 import com.lundi_m.taskpulse.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class TaskController {
     public ResponseEntity<Page<TaskResponse>> getTasks(
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam(required = false) String completed,
-            @RequestParam(required = false) Integer priority,
+            @RequestParam(required = false) Priority priority,
             Pageable pageable
     ) {
         Page<TaskResponse> tasks = taskService.getTasks(userDetails.getUsername(), completed, priority, pageable);
