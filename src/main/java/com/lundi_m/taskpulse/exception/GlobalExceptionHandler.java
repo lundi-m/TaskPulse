@@ -3,6 +3,7 @@ package com.lundi_m.taskpulse.exception;
 import com.lundi_m.taskpulse.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -60,7 +61,25 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleUserNotFound(UsernameNotFoundException exception){
         Map<String, String> error = new HashMap<>();
 
-        error.put("message", exception.getMessage());
+        error.put("message: ", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(MoodNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleMoodNotFoundException(MoodNotFoundException exception){
+        Map<String, String> error = new HashMap<>();
+
+        error.put("message: ", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, String>> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception){
+        Map<String, String> error = new HashMap<>();
+
+        error.put("message: ", exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
