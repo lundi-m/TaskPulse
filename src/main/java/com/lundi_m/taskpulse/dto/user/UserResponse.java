@@ -1,10 +1,9 @@
-package com.lundi_m.taskpulse.dto;
+package com.lundi_m.taskpulse.dto.user;
 
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
-import java.time.LocalDate;
 
 @Data
 @Builder

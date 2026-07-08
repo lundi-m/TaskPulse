@@ -1,4 +1,4 @@
-package com.lundi_m.taskpulse.dto;
+package com.lundi_m.taskpulse.dto.auth;
 
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package com.lundi_m.taskpulse.service;
 
-import com.lundi_m.taskpulse.dto.MoodRequest;
-import com.lundi_m.taskpulse.dto.MoodResponse;
+import com.lundi_m.taskpulse.dto.mood.MoodRequest;
+import com.lundi_m.taskpulse.dto.mood.MoodResponse;
 import com.lundi_m.taskpulse.exception.MoodNotFoundException;
 import com.lundi_m.taskpulse.model.entity.MoodEntry;
 import com.lundi_m.taskpulse.model.entity.TaskPulseUser;

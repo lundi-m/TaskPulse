@@ -1,7 +1,7 @@
 package com.lundi_m.taskpulse.service;
 
-import com.lundi_m.taskpulse.dto.TaskRequest;
-import com.lundi_m.taskpulse.dto.TaskResponse;
+import com.lundi_m.taskpulse.dto.task.TaskRequest;
+import com.lundi_m.taskpulse.dto.task.TaskResponse;
 import com.lundi_m.taskpulse.exception.TaskNotFoundException;
 import com.lundi_m.taskpulse.model.entity.Task;
 import com.lundi_m.taskpulse.model.entity.TaskPulseUser;

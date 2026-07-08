@@ -1,7 +1,7 @@
 package com.lundi_m.taskpulse.controller;
 
-import com.lundi_m.taskpulse.dto.MoodRequest;
-import com.lundi_m.taskpulse.dto.MoodResponse;
+import com.lundi_m.taskpulse.dto.mood.MoodRequest;
+import com.lundi_m.taskpulse.dto.mood.MoodResponse;
 import com.lundi_m.taskpulse.service.MoodService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
