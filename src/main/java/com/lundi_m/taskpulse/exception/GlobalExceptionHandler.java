@@ -24,77 +24,71 @@ public class GlobalExceptionHandler {
                 .getFieldErrors()
                 .forEach(fieldError -> errors.put(fieldError.getField(), fieldError.getDefaultMessage()));
 
-        ErrorResponse error = ErrorResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .status(HttpStatus.BAD_REQUEST.value())
-                .error(errors.toString())
-                .message(exception.getMessage())
-                .build();
+        ErrorResponse response = buildError(HttpStatus.BAD_REQUEST, errors.toString());
 
-        return ResponseEntity.badRequest().body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException exception) {
 
-        ErrorResponse error = ErrorResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .status(HttpStatus.BAD_REQUEST.value())
-                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                .message(exception.getMessage())
-                .build();
+        ErrorResponse error = buildError(HttpStatus.BAD_REQUEST, exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(TaskNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleTaskNotFoundException(TaskNotFoundException exception){
+    public ResponseEntity<ErrorResponse> handleTaskNotFoundException(TaskNotFoundException exception){
 
         Map<String, String> error = new HashMap<>();
 
         error.put("message: ", exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        ErrorResponse response = buildError(HttpStatus.BAD_REQUEST, error.toString());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleUserNotFound(UsernameNotFoundException exception){
+    public ResponseEntity<ErrorResponse> handleUserNotFound(UsernameNotFoundException exception){
         Map<String, String> error = new HashMap<>();
 
         error.put("message: ", exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        ErrorResponse response = buildError(HttpStatus.BAD_REQUEST, error.toString());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(MoodNotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleMoodNotFoundException(MoodNotFoundException exception){
+    public ResponseEntity<ErrorResponse> handleMoodNotFoundException(MoodNotFoundException exception){
         Map<String, String> error = new HashMap<>();
 
         error.put("message: ", exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        ErrorResponse response = buildError(HttpStatus.BAD_REQUEST, error.toString());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Map<String, String>> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception){
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(
+            HttpMessageNotReadableException exception){
         Map<String, String> error = new HashMap<>();
 
         error.put("message: ", exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        ErrorResponse response = buildError(HttpStatus.BAD_REQUEST, error.toString());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception exception){
 
-        ErrorResponse error = ErrorResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-                .message(exception.getMessage())
-                .build();
+        ErrorResponse response = buildError(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     private ErrorResponse buildError(HttpStatus status, String message){
