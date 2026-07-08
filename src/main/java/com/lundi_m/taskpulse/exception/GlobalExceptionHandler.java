@@ -32,19 +32,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException exception) {
 
-        ErrorResponse error = buildError(HttpStatus.BAD_REQUEST, exception.getMessage());
+        ErrorResponse response = buildError(HttpStatus.BAD_REQUEST, exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(TaskNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleTaskNotFoundException(TaskNotFoundException exception){
 
-        Map<String, String> error = new HashMap<>();
-
-        error.put("message: ", exception.getMessage());
-
-        ErrorResponse response = buildError(HttpStatus.BAD_REQUEST, error.toString());
+        ErrorResponse response = buildError(HttpStatus.NOT_FOUND, exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
@@ -53,32 +49,39 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleUserNotFound(UsernameNotFoundException exception){
         Map<String, String> error = new HashMap<>();
 
-        error.put("message: ", exception.getMessage());
-
-        ErrorResponse response = buildError(HttpStatus.BAD_REQUEST, error.toString());
+        ErrorResponse response = buildError(HttpStatus.NOT_FOUND, exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(MoodNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleMoodNotFoundException(MoodNotFoundException exception){
-        Map<String, String> error = new HashMap<>();
 
-        error.put("message: ", exception.getMessage());
-
-        ErrorResponse response = buildError(HttpStatus.BAD_REQUEST, error.toString());
+        ErrorResponse response = buildError(HttpStatus.NOT_FOUND, exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+    @ExceptionHandler(NoIncompleteTasksFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoIncompleteTasksFoundException(NoIncompleteTasksFoundException exception){
+
+        ErrorResponse response = buildError(HttpStatus.NOT_FOUND, exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(RecommendationGenerationException.class)
+    public ResponseEntity<ErrorResponse> handleRecommendationGenerationException(RecommendationGenerationException exception){
+
+        ErrorResponse response = buildError(HttpStatus.UNPROCESSABLE_CONTENT, exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT).body(response);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(
             HttpMessageNotReadableException exception){
-        Map<String, String> error = new HashMap<>();
 
-        error.put("message: ", exception.getMessage());
-
-        ErrorResponse response = buildError(HttpStatus.BAD_REQUEST, error.toString());
+        ErrorResponse response = buildError(HttpStatus.BAD_REQUEST, exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
