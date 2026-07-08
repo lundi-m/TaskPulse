@@ -1,6 +1,10 @@
 package com.lundi_m.taskpulse.service;
 
-import com.lundi_m.taskpulse.dto.*;
+import com.lundi_m.taskpulse.dto.auth.AuthResponse;
+import com.lundi_m.taskpulse.dto.auth.LoginRequest;
+import com.lundi_m.taskpulse.dto.auth.RefreshRequest;
+import com.lundi_m.taskpulse.dto.auth.RegisterRequest;
+import com.lundi_m.taskpulse.dto.user.UserResponse;
 import com.lundi_m.taskpulse.model.entity.RefreshToken;
 import com.lundi_m.taskpulse.model.entity.TaskPulseUser;
 import com.lundi_m.taskpulse.repository.UserRepository;

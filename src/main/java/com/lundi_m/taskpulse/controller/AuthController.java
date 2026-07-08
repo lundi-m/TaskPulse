@@ -1,6 +1,10 @@
 package com.lundi_m.taskpulse.controller;
 
-import com.lundi_m.taskpulse.dto.*;
+import com.lundi_m.taskpulse.dto.auth.AuthResponse;
+import com.lundi_m.taskpulse.dto.auth.LoginRequest;
+import com.lundi_m.taskpulse.dto.auth.RefreshRequest;
+import com.lundi_m.taskpulse.dto.auth.RegisterRequest;
+import com.lundi_m.taskpulse.dto.user.UserResponse;
 import com.lundi_m.taskpulse.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

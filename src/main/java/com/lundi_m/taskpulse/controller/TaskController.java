@@ -1,7 +1,7 @@
 package com.lundi_m.taskpulse.controller;
 
-import com.lundi_m.taskpulse.dto.TaskRequest;
-import com.lundi_m.taskpulse.dto.TaskResponse;
+import com.lundi_m.taskpulse.dto.task.TaskRequest;
+import com.lundi_m.taskpulse.dto.task.TaskResponse;
 import com.lundi_m.taskpulse.model.enums.Priority;
 import com.lundi_m.taskpulse.service.TaskService;
 import jakarta.validation.Valid;

@@ -1,4 +1,4 @@
-package com.lundi_m.taskpulse.dto;
+package com.lundi_m.taskpulse.dto.mood;
 
 import com.lundi_m.taskpulse.model.enums.EnergyLevel;
 import com.lundi_m.taskpulse.model.enums.MoodType;

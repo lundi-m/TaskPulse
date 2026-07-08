@@ -1,6 +1,6 @@
 package com.lundi_m.taskpulse.exception;
 
-import com.lundi_m.taskpulse.dto.ErrorResponse;
+import com.lundi_m.taskpulse.dto.common.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;

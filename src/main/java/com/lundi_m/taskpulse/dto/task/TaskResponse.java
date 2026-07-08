@@ -1,4 +1,4 @@
-package com.lundi_m.taskpulse.dto;
+package com.lundi_m.taskpulse.dto.task;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.lundi_m.taskpulse.model.enums.DifficultyLevel;
