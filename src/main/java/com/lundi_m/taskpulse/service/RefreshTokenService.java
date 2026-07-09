@@ -1,5 +1,6 @@
 package com.lundi_m.taskpulse.service;
 
+import com.lundi_m.taskpulse.exception.InvalidTokenException;
 import com.lundi_m.taskpulse.model.entity.RefreshToken;
 import com.lundi_m.taskpulse.model.entity.TaskPulseUser;
 import com.lundi_m.taskpulse.repository.RefreshTokenRepository;
@@ -39,11 +40,11 @@ public class RefreshTokenService {
 
     public RefreshToken verifyAndGet(String token){
         RefreshToken refreshToken = refreshTokenRepository.findByToken(token)
-                .orElseThrow(()-> new RuntimeException("Refresh token not found"));
+                .orElseThrow(()-> new InvalidTokenException("Refresh token not found"));
 
         if (refreshToken.getExpiryDate().isBefore(Instant.now())){
             refreshTokenRepository.delete(refreshToken);
-            throw new RuntimeException("Refresh token expired, please log in again");
+            throw new InvalidTokenException("Refresh token expired, please log in again");
         }
 
         return refreshToken;
@@ -52,7 +53,7 @@ public class RefreshTokenService {
     @Transactional
     public void deleteByToken(String token){
         RefreshToken refreshToken = refreshTokenRepository.findByToken(token)
-                        .orElseThrow(() -> new RuntimeException("Invalid token"));
+                        .orElseThrow(() -> new InvalidTokenException("Invalid token"));
 
         refreshTokenRepository.deleteByToken(refreshToken.getToken());
     }
