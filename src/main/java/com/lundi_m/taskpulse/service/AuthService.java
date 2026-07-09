@@ -5,10 +5,12 @@ import com.lundi_m.taskpulse.dto.auth.LoginRequest;
 import com.lundi_m.taskpulse.dto.auth.RefreshRequest;
 import com.lundi_m.taskpulse.dto.auth.RegisterRequest;
 import com.lundi_m.taskpulse.dto.user.UserResponse;
+import com.lundi_m.taskpulse.exception.EmailAlreadyExistsException;
 import com.lundi_m.taskpulse.model.entity.RefreshToken;
 import com.lundi_m.taskpulse.model.entity.TaskPulseUser;
 import com.lundi_m.taskpulse.repository.UserRepository;
 import com.lundi_m.taskpulse.security.JwtService;
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,7 +33,7 @@ public class AuthService {
 
     public UserResponse register(RegisterRequest request){
         if (userRepository.existsByEmail(request.getEmail())){
-            throw new RuntimeException("Email already exists");
+            throw new EmailAlreadyExistsException(request.getEmail());
         }
 
         TaskPulseUser user = TaskPulseUser.builder()
