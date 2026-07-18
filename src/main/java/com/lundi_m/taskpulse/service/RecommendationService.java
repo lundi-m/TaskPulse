@@ -79,36 +79,7 @@ public class RecommendationService {
                 .map(results -> this.mapToDTO(results, currentMood))
                 .toList();
     }
-
-    private String buildReasoning(RecommendationScore recommendationScore, MoodEntry mood){
-        Task task = recommendationScore.getTask();
-        StringBuilder reason = new StringBuilder();
-
-        reason
-                .append("Based on your ")
-                .append(mood.getMoodType().name().toLowerCase())
-                .append(" mood and ")
-                .append(mood.getEnergyLevel().name().toLowerCase())
-                .append(" energy, ");
-
-        if (task.getDeadline() != null && task.getDeadline().isBefore(LocalDate.now())){
-            reason.append("this task has an upcoming deadline and ");
-        }
-
-        reason
-                .append("its ")
-                .append(task.getDifficultyLevel().name().toLowerCase())
-                .append(" difficulty aligns with your current state. ");
-
-        if (mood.getAvailableTime() >= task.getEstimatedDuration()) {
-            reason.append("You have enough time to complete it.");
-        }else {
-            reason.append("You may not finish it fully, but making process is worthwhile");
-        }
-
-        return reason.toString();
-    }
-
+    
     private RecommendationResponse mapToDTO(RecommendationScore recommendationScore, MoodEntry currentMood) {
 
         return RecommendationResponse.builder()
