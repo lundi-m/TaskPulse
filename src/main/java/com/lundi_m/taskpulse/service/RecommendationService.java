@@ -7,6 +7,7 @@ import com.lundi_m.taskpulse.exception.RecommendationGenerationException;
 import com.lundi_m.taskpulse.model.entity.MoodEntry;
 import com.lundi_m.taskpulse.model.entity.Task;
 import com.lundi_m.taskpulse.model.entity.TaskPulseUser;
+import com.lundi_m.taskpulse.recommendation.ReasoningEngine;
 import com.lundi_m.taskpulse.recommendation.RecommendationScore;
 import com.lundi_m.taskpulse.recommendation.ScoringEngine;
 import com.lundi_m.taskpulse.repository.MoodEntryRepository;
@@ -17,9 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +28,7 @@ public class RecommendationService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final MoodEntryRepository moodEntryRepository;
+    private final ReasoningEngine reasoningEngine;
 
     public RecommendationResponse recommend(String email){
         TaskPulseUser user = userRepository.findByEmail(email)
@@ -43,18 +43,6 @@ public class RecommendationService {
 
         if (tasks.isEmpty()){
             throw new NoIncompleteTasksFoundException();
-        }
-
-        // Check for overdue or due today tasks first
-        Optional<Task> urgentTask = tasks.stream()
-                .filter(task -> task.getDeadline() != null
-                        && !task.getDeadline().isAfter(LocalDate.now()))
-                .findFirst();
-
-        if (urgentTask.isPresent()){
-            Task task = urgentTask.get();
-
-            return mapToDTO(new RecommendationScore(task, 5.0), currentMood);
         }
 
         RecommendationScore result = scoringEngine.recommend(tasks, currentMood)
@@ -79,7 +67,7 @@ public class RecommendationService {
                 .map(results -> this.mapToDTO(results, currentMood))
                 .toList();
     }
-    
+
     private RecommendationResponse mapToDTO(RecommendationScore recommendationScore, MoodEntry currentMood) {
 
         return RecommendationResponse.builder()
@@ -91,7 +79,7 @@ public class RecommendationService {
                 .estimatedDuration(recommendationScore.getTask().getEstimatedDuration())
                 .deadline(recommendationScore.getTask().getDeadline())
                 .score(recommendationScore.getScore())
-                .reasoning(buildReasoning(recommendationScore, currentMood))
+                .reasoning(reasoningEngine.buildRecommendationReasoning(recommendationScore, currentMood))
                 .build();
     }
 }
