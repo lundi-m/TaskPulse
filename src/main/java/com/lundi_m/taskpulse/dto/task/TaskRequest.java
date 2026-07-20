@@ -20,6 +20,7 @@ public class TaskRequest {
     @NotNull(message = "Priority is required")
     private Priority priority;
 
+    @Min(value = 5, message = "Estimated minutes must be at least 5")
     @Max(value = 1440, message = "Estimated minutes cannot exceed 1440")
     private Integer estimatedDuration;
 
