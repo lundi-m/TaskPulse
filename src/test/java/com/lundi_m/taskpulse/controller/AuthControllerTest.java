@@ -3,7 +3,6 @@ package com.lundi_m.taskpulse.controller;
 import com.lundi_m.taskpulse.dto.auth.LoginRequest;
 import com.lundi_m.taskpulse.dto.auth.RefreshRequest;
 import com.lundi_m.taskpulse.dto.auth.RegisterRequest;
-import com.lundi_m.taskpulse.dto.user.UserResponse;
 import com.lundi_m.taskpulse.exception.EmailAlreadyExistsException;
 import com.lundi_m.taskpulse.exception.InvalidTokenException;
 import com.lundi_m.taskpulse.security.JwtAuthenticationFilter;
@@ -19,8 +18,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
+import static com.lundi_m.taskpulse.testUtil.AuthData.*;
+import static com.lundi_m.taskpulse.testUtil.AuthData.createUserResponse;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -49,15 +49,14 @@ public class AuthControllerTest {
     @Test
     void shouldRegisterUser() throws Exception{
 
-        UserResponse response = AuthData.createUserResponse();
-
         when(authService.register(any(RegisterRequest.class)))
-                .thenReturn(response);
+                .thenReturn(createUserResponse());
 
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(response)))
-                .andExpect(status().isCreated());
+                .content(toJson(createRegisterRequest())))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.email").exists());
     }
 
     @Test
@@ -75,11 +74,11 @@ public class AuthControllerTest {
     void shouldReturnConflictWhenEmailAlreadyExists() throws Exception{
 
         when(authService.register(any(RegisterRequest.class)))
-                .thenThrow(new EmailAlreadyExistsException(anyString()));
+                .thenThrow(new EmailAlreadyExistsException("Email already exist"));
 
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(AuthData.createUserResponse())))
+                .content(toJson(createUserResponse())))
                 .andExpect(status().isConflict());
     }
 
@@ -91,7 +90,7 @@ public class AuthControllerTest {
 
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(AuthData.createLoginRequest())))
+                .content(toJson(createLoginRequest())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.refreshToken").exists());
@@ -102,7 +101,7 @@ public class AuthControllerTest {
 
         LoginRequest request = new LoginRequest();
 
-        mockMvc.perform(post("/api/auth/register")
+        mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(request)))
                 .andExpect(status().isBadRequest());
@@ -116,7 +115,7 @@ public class AuthControllerTest {
 
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(AuthData.createLoginRequest())))
+                .content(toJson(createLoginRequest())))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -128,7 +127,7 @@ public class AuthControllerTest {
 
         mockMvc.perform(post("/api/auth/refresh")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(AuthData.createRefreshRequest())))
+                .content(toJson(createRefreshRequest())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").exists())
                 .andExpect(jsonPath("$.refreshToken").exists());
@@ -153,11 +152,9 @@ public class AuthControllerTest {
 
         doNothing().when(authService).logout(AuthData.createRefreshRequest());
 
-        mockMvc.perform(post("/api/auth/refresh")
+        mockMvc.perform(post("/api/auth/logout")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(AuthData.createRefreshRequest())))
+                .content(toJson(createRefreshRequest())))
                 .andExpect(status().isOk());
-
-
     }
 }
