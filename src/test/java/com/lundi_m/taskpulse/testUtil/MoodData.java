@@ -3,6 +3,7 @@ package com.lundi_m.taskpulse.testUtil;
 import com.lundi_m.taskpulse.dto.mood.MoodRequest;
 import com.lundi_m.taskpulse.dto.mood.MoodResponse;
 import com.lundi_m.taskpulse.model.entity.MoodEntry;
+import com.lundi_m.taskpulse.model.entity.TaskPulseUser;
 import com.lundi_m.taskpulse.model.enums.EnergyLevel;
 import com.lundi_m.taskpulse.model.enums.MoodType;
 
@@ -15,6 +16,19 @@ public class MoodData {
                 .moodType(moodType)
                 .energyLevel(energyLevel)
                 .availableTime(availableTime)
+                .build();
+    }
+
+    public static MoodEntry createMood(TaskPulseUser user,
+                                       MoodType moodType,
+                                       EnergyLevel energyLevel,
+                                       int availableTime){
+        return  MoodEntry.builder()
+                .user(user)
+                .moodType(moodType)
+                .energyLevel(energyLevel)
+                .availableTime(availableTime)
+                .recordedAt(Instant.now())
                 .build();
     }
 
