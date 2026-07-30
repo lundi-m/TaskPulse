@@ -3,6 +3,7 @@ package com.lundi_m.taskpulse.testUtil;
 import com.lundi_m.taskpulse.dto.task.TaskRequest;
 import com.lundi_m.taskpulse.dto.task.TaskResponse;
 import com.lundi_m.taskpulse.model.entity.Task;
+import com.lundi_m.taskpulse.model.entity.TaskPulseUser;
 import com.lundi_m.taskpulse.model.enums.DifficultyLevel;
 import com.lundi_m.taskpulse.model.enums.Priority;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,44 @@ public class TaskData {
                 .estimatedDuration(estimatedDuration)
                 .deadline(deadline)
                 .completed("Not completed")
+                .build();
+    }
+
+    public static Task createTask(TaskPulseUser user,
+                                  String title,
+                                  DifficultyLevel difficulty,
+                                  Priority priority,
+                                  int estimatedDuration,
+                                  LocalDate deadline) {
+        return Task.builder()
+                .user(user)
+                .title(title)
+                .difficultyLevel(difficulty)
+                .priority(priority)
+                .estimatedDuration(estimatedDuration)
+                .deadline(deadline)
+                .completed("Not completed")
+                .createdAt(Instant.now())
+                .build();
+    }
+
+    public static Task createTask(TaskPulseUser user,
+                                  String title,
+                                  String description,
+                                  DifficultyLevel difficulty,
+                                  Priority priority,
+                                  int estimatedDuration,
+                                  LocalDate deadline) {
+        return Task.builder()
+                .user(user)
+                .title(title)
+                .description(description)
+                .difficultyLevel(difficulty)
+                .priority(priority)
+                .estimatedDuration(estimatedDuration)
+                .deadline(deadline)
+                .completed("Not completed")
+                .createdAt(Instant.now())
                 .build();
     }
 
