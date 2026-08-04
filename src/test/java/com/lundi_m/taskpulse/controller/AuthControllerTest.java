@@ -136,14 +136,12 @@ public class AuthControllerTest {
     @Test
     void shouldReturnUnauthorizedWhenRefreshTokenIsInvalid() throws Exception{
 
-        RefreshRequest request = new RefreshRequest();
-
         when(authService.refresh(any(RefreshRequest.class)))
                 .thenThrow(new InvalidTokenException("Invalid Token"));
 
         mockMvc.perform(post("/api/auth/refresh")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(request)))
+                .content(toJson(createRefreshRequest())))
                 .andExpect(status().isUnauthorized());
     }
 
